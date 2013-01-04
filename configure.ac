@@ -23,7 +23,7 @@ AC_INIT([esskyuehl], [v_ver], [michael.blumenkrantz@gmail.com], [esskyuehl])
 AC_PREREQ([2.57])
 AC_CONFIG_SRCDIR([configure.ac])
 AC_CONFIG_MACRO_DIR([m4])
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 AC_GNU_SOURCE
 AC_ISC_POSIX
