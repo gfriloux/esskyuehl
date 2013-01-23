@@ -18,6 +18,12 @@
 #include "esql_module.h"
 #include <sqlite3.h>
 
+typedef struct _Esql_Sqlite_Res
+{
+   Eina_Array *memory;
+   sqlite3_stmt *stmt;
+} Esql_Sqlite_Res;
+
 static const char *esql_sqlite_error_get(Esql *e);
 static void esql_sqlite_disconnect(Esql *e);
 static int esql_sqlite_fd_get(Esql *e);
@@ -101,11 +107,11 @@ esql_sqlite_connect(Esql *e)
 }
 
 static void
-esql_module_setup_cb(sqlite3_stmt *stmt, int col, Eina_Value_Struct_Member *m)
+esql_module_setup_cb(Esql_Sqlite_Res *res, int col, Eina_Value_Struct_Member *m)
 {
-   m->name = eina_stringshare_add(sqlite3_column_name(stmt, col));
+   m->name = eina_stringshare_add(sqlite3_column_name(res->stmt, col));
 
-   switch (sqlite3_column_type(stmt, col))
+   switch (sqlite3_column_type(res->stmt, col))
      {
       case SQLITE_TEXT:
          m->type = EINA_VALUE_TYPE_STRING;
@@ -124,12 +130,26 @@ esql_module_setup_cb(sqlite3_stmt *stmt, int col, Eina_Value_Struct_Member *m)
 static Eina_Bool
 esql_sqlite_res_init(Esql *e)
 {
+   Esql_Sqlite_Res *res;
+
    e->res = esql_res_calloc(1);
    if (!e->res) return EINA_FALSE;
+
+   res = calloc(1, sizeof(Esql_Sqlite_Res));
+   if (!res)
+     {
+        esql_res_free(NULL, e->res);
+        return EINA_FALSE;
+     }
+
+   res->memory = eina_array_new(10);
+   res->stmt = e->backend.stmt;
+   e->res->backend.res = res;
+
    e->res->e = e;
-   e->res->backend.res = e->backend.stmt;
    e->res->desc = esql_module_desc_get(sqlite3_column_count(e->backend.stmt), (Esql_Module_Setup_Cb)esql_module_setup_cb, e->res);
    e->res->affected = sqlite3_changes(e->backend.db);
+
    return EINA_TRUE;
 }
 
@@ -203,8 +223,16 @@ esql_sqlite_query(Esql *e, const char *query, unsigned int len)
 }
 
 static void
-esql_sqlite_res_free(Esql_Res *res __UNUSED__)
+esql_sqlite_res_free(Esql_Res *res)
 {
+   Esql_Sqlite_Res *esql_sqlite_res = res->backend.res;
+   Eina_Array *memory = esql_sqlite_res->memory;
+
+   while (eina_array_count(memory))
+     free(eina_array_pop(memory));
+
+   eina_array_free(memory);
+   free(esql_sqlite_res);
 }
 
 static void
@@ -224,6 +252,8 @@ esql_sqlite_row_add(Esql_Res *res)
    Esql_Row *r;
    Eina_Value *val;
    unsigned int i;
+   Esql_Sqlite_Res *esql_sqlite_res = res->backend.res;
+   Eina_Array *memory = esql_sqlite_res->memory;
 
    r = esql_row_calloc(1);
    EINA_SAFETY_ON_NULL_RETURN(r);
@@ -242,30 +272,40 @@ esql_sqlite_row_add(Esql_Res *res)
         switch (sqlite3_column_type(res->e->backend.stmt, i))
           {
            case SQLITE_TEXT:
-              eina_value_setup(&inv, EINA_VALUE_TYPE_STRING);
-              eina_value_set(&inv, sqlite3_column_text(res->e->backend.stmt, i));
-             break;
-
+             {
+                char *text;
+                text = strdup(sqlite3_column_text(res->e->backend.stmt, i));
+                eina_value_setup(&inv, EINA_VALUE_TYPE_STRING);
+                eina_value_set(&inv, text);
+                eina_array_push(memory, text);
+                break;
+             }
            case SQLITE_INTEGER:
-              eina_value_setup(&inv, EINA_VALUE_TYPE_INT64);
-              eina_value_set(&inv, sqlite3_column_int64(res->e->backend.stmt, i));
+             eina_value_setup(&inv, EINA_VALUE_TYPE_INT64);
+             eina_value_set(&inv, sqlite3_column_int64(res->e->backend.stmt, i));
              break;
 
            case SQLITE_FLOAT:
-              eina_value_setup(&inv, EINA_VALUE_TYPE_DOUBLE);
-              eina_value_set(&inv, sqlite3_column_double(res->e->backend.stmt, i));
+             eina_value_setup(&inv, EINA_VALUE_TYPE_DOUBLE);
+             eina_value_set(&inv, sqlite3_column_double(res->e->backend.stmt, i));
              break;
 
            default:
              {
                 Eina_Value_Blob blob;
+                char *tmp;
+                int size;
+
+                size = sqlite3_column_bytes(res->e->backend.stmt, i);
+                tmp = malloc(size);
+                memcpy(tmp, sqlite3_column_blob(res->e->backend.stmt, i), size);
 
                 blob.ops = NULL;
-                blob.memory = sqlite3_column_blob(res->e->backend.stmt, i);
-                blob.size = sqlite3_column_bytes(res->e->backend.stmt, i);
-
+                blob.memory = tmp;
+                blob.size = size;
                 eina_value_setup(&inv, EINA_VALUE_TYPE_BLOB);
-                eina_value_set(&inv, &blob);
+                eina_value_set(&inv, blob);
+                eina_array_push(memory, tmp);
              }
           }
 
