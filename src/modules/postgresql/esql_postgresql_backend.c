@@ -350,7 +350,7 @@ esql_postgresql_row_init(Esql_Row *r, int row_num)
                 blob.memory = str;
                 blob.size = PQgetlength(pres, row_num, i);
                 eina_value_setup(&val, EINA_VALUE_TYPE_BLOB);
-                eina_value_set(&val, &blob);
+                eina_value_set(&val, blob);
                 //WARN("Unsupported type passed with Oid %u in column '%s': '%*s'!", PQftype(pres, i), cell->colname, blob.size, (char*)str);
                 break;
              }
