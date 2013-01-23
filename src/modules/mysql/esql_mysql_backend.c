@@ -302,9 +302,9 @@ esql_mysac_row_init(Esql_Row *r, MYSAC_ROW *row)
 
                 blob.ops = NULL;
                 blob.memory = row[i].string;
-                blob.size = rows->lengths[i];;
+                blob.size = rows->lengths[i];
                 eina_value_setup(&val, EINA_VALUE_TYPE_BLOB);
-                eina_value_set(&val, &blob);
+                eina_value_set(&val, blob);
                 break;
              }
 
