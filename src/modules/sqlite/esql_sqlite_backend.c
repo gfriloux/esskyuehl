@@ -273,11 +273,8 @@ esql_sqlite_row_add(Esql_Res *res)
           {
            case SQLITE_TEXT:
              {
-                char *text;
-                text = strdup(sqlite3_column_text(res->e->backend.stmt, i));
                 eina_value_setup(&inv, EINA_VALUE_TYPE_STRING);
-                eina_value_set(&inv, text);
-                eina_array_push(memory, text);
+                eina_value_set(&inv, sqlite3_column_text(res->e->backend.stmt, i));
                 break;
              }
            case SQLITE_INTEGER:
