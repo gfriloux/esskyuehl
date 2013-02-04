@@ -105,6 +105,7 @@ esql_query_escape(Eina_Bool     backslashes,
         Eina_Bool l = EINA_FALSE;
         Eina_Bool ll = EINA_FALSE;
         long long int i;
+        unsigned long long int u;
         double d;
         char *s;
 
@@ -150,6 +151,16 @@ top:
              else
                i = va_arg(args, int);
              EINA_SAFETY_ON_FALSE_GOTO(eina_strbuf_append_printf(buf, "%lli", i), err);
+             break;
+
+           case 'u':
+             if (l && ll)
+               u = va_arg(args, unsigned long long int);
+             else if (l)
+               u = va_arg(args, unsigned long int);
+             else
+               u = va_arg(args, unsigned int);
+             EINA_SAFETY_ON_FALSE_GOTO(eina_strbuf_append_printf(buf, "%llu", u), err);
              break;
 
            case 's':
