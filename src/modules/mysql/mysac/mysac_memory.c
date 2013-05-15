@@ -170,6 +170,9 @@ int mysac_extend_res(MYSAC *m)
 	}
 
 	/* update neighbor list link */
+   res->list.prev = (struct mysac_list_head *)((char *)res->list.prev + offset);
+   res->list.next = (struct mysac_list_head *)((char *)res->list.next + offset);
+
 	res->list.prev->next = &res->list;
 	res->list.next->prev = &res->list;
 
