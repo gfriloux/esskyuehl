@@ -255,13 +255,12 @@ esql_query(Esql       *e,
              while (!(--esql_id));
              return 0;
           }
-        if (e->fdh)
-          ecore_main_fd_handler_active_set(e->fdh, ECORE_FD_WRITE);
         e->current = ESQL_CONNECT_TYPE_QUERY;
         e->cur_data = data;
         e->cur_id = esql_id;
         e->cur_query = strdup(query);
-        esql_connect_handler(e, e->fdh);
+        if (!e->sending_idler)
+          e->sending_idler = ecore_idler_add((Ecore_Task_Cb)esql_fd_handler, e);
      }
    else
      {
@@ -356,13 +355,12 @@ esql_query_vargs(Esql       *e,
              while (!(--esql_id));
              return 0;
           }
-        if (e->fdh)
-          ecore_main_fd_handler_active_set(e->fdh, ECORE_FD_WRITE);
         e->current = ESQL_CONNECT_TYPE_QUERY;
         e->cur_data = data;
         e->cur_id = esql_id;
         e->cur_query = query;
-        esql_connect_handler(e, e->fdh);
+        if (!e->sending_idler)
+          e->sending_idler = ecore_idler_add((Ecore_Task_Cb)esql_fd_handler, e);
      }
    else
      {

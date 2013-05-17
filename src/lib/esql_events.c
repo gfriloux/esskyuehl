@@ -329,3 +329,14 @@ esql_timeout_cb(Esql *e)
    if (e->reconnect) e->reconnect_timer = ecore_timer_add(1.0, (Ecore_Task_Cb)esql_reconnect_handler, e);
    return EINA_FALSE;
 }
+
+Eina_Bool
+esql_fd_handler(Esql *e)
+{
+   ecore_idler_del(e->sending_idler);
+   e->sending_idler = NULL;
+
+   if (e->fdh)
+     ecore_main_fd_handler_active_set(e->fdh, ECORE_FD_WRITE);
+   esql_connect_handler(e, e->fdh);
+}

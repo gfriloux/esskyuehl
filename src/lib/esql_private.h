@@ -165,6 +165,7 @@ struct Esql
    Esql_Res         *res; /* current working result */
    Ecore_Timer      *timeout_timer;
    Ecore_Timer      *reconnect_timer;
+   Ecore_Idler      *sending_idler;
 
    Esql_Connect_Type current;
    double            query_start;
@@ -235,6 +236,7 @@ void          esql_pool_free(Esql_Pool *ep);
 Eina_Bool    esql_reconnect_handler(Esql *e);
 
 EAPI void     esql_event_error(Esql *e);
+EAPI Eina_Bool esql_fd_handler(Esql *e);
 EAPI void     esql_call_complete(Esql *e);
 
 Eina_Bool esql_mempool_init(void);
