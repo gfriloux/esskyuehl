@@ -259,8 +259,9 @@ esql_query(Esql       *e,
         e->cur_data = data;
         e->cur_id = esql_id;
         e->cur_query = strdup(query);
-        if (!e->sending_idler)
-          e->sending_idler = ecore_idler_add((Ecore_Task_Cb)esql_fd_handler, e);
+
+        if (!e->fd_job)
+          e->fd_job = ecore_job_add((Ecore_Cb)esql_fd_handler, e);
      }
    else
      {
@@ -359,8 +360,9 @@ esql_query_vargs(Esql       *e,
         e->cur_data = data;
         e->cur_id = esql_id;
         e->cur_query = query;
-        if (!e->sending_idler)
-          e->sending_idler = ecore_idler_add((Ecore_Task_Cb)esql_fd_handler, e);
+
+        if (!e->fd_job)
+          e->fd_job = ecore_job_add((Ecore_Cb)esql_fd_handler, e);
      }
    else
      {

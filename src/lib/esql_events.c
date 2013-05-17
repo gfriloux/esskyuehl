@@ -330,11 +330,10 @@ esql_timeout_cb(Esql *e)
    return EINA_FALSE;
 }
 
-Eina_Bool
+void
 esql_fd_handler(Esql *e)
 {
-   ecore_idler_del(e->sending_idler);
-   e->sending_idler = NULL;
+   e->fd_job = NULL;
 
    if (e->fdh)
      ecore_main_fd_handler_active_set(e->fdh, ECORE_FD_WRITE);
