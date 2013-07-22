@@ -294,7 +294,11 @@ esql_res_unref(Esql_Res *res)
    DBG("res=%p (was refcount=%d)", res, res->refcount);
    res->refcount--;
    if (res->refcount == 0)
-     _esql_res_free(res);
+     {
+        if (res->e->res == res)
+          res->e->res = NULL;
+        _esql_res_free(res);
+     }
 }
 
 /**
