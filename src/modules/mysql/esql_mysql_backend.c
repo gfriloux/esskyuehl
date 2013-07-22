@@ -187,6 +187,12 @@ esql_mysac_query(Esql *e, const char *query, unsigned int len __UNUSED__)
 static void
 esql_mysac_res_free(Esql_Res *res)
 {
+   MYSAC *mysac;
+   mysac = res->e->backend.db;
+   res->e->error = NULL;
+   mysac->errorcode = 0;
+   mysac->mysql_error = NULL;
+
    mysac_free_res(res->backend.res);
 }
 
