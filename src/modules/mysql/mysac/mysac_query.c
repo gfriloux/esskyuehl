@@ -192,7 +192,9 @@ int mysac_send_query(MYSAC *mysac) {
 					return MYSAC_RET_ERROR;
 
 			/* copy data */
-			memcpy(mysac->res->buffer, mysac->read, mysac->packet_length);
+			if (mysac->res->buffer != mysac->read) {
+				memcpy(mysac->res->buffer, mysac->read, mysac->packet_length);
+			}
 			mysac->read = mysac->res->buffer;
 			mysac->read_len = mysac->res->buffer_len;
 			mysac->len = mysac->packet_length;
