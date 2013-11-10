@@ -21,7 +21,6 @@
 
 #include "Esskyuehl.h"
 #include <Ecore.h>
-#include <assert.h>
 
 struct ctx {
    unsigned int conns;
@@ -30,6 +29,13 @@ struct ctx {
 };
 static Ecore_Event_Handler *evh = NULL;
 #define INSERTED_ROWS 10
+
+static void
+_assert(Eina_Bool expr, const char* file, int line)
+{
+   if (!expr) EINA_LOG_ERR("%s:%d ds failed miserably", file, line);
+}
+#define assert(_expr) _assert(_expr, __FILE__, __LINE__);
 
 static Eina_Bool
 on_query_results(void *data, int type __UNUSED__, void *event_info)
@@ -51,11 +57,11 @@ on_query_results(void *data, int type __UNUSED__, void *event_info)
           esql_res_cols_count(res));
 
    cname = esql_res_col_name_get(res, 0);
-   assert(cname);
+   assert(cname!=NULL);
    assert(strcmp(cname, "i") == 0);
 
    cname = esql_res_col_name_get(res, 1);
-   assert(cname);
+   assert(cname!=NULL);
    assert(strcmp(cname, "s") == 0);
 
    i = 0;
@@ -73,7 +79,7 @@ on_query_results(void *data, int type __UNUSED__, void *event_info)
         snprintf(buf, sizeof(buf), "some-text-%10d", i);
 
         assert(eina_value_struct_get(val, "s", &str));
-        assert(str);
+        assert(str!=NULL);
         assert(strcmp(str, buf) == 0);
 
         i++;
