@@ -107,7 +107,11 @@ esql_postgresql_error_get(Esql *e)
 
    p = PQerrorMessage(e->backend.db);
    if ((!p) || (!*p))
-     p = PQresStatus(PQresultStatus(e->res->backend.res));
+     {
+        p = PQresultErrorMessage(PQgetResult(e->backend.db));
+        if ((!p) || (!*p))
+          p = PQresStatus(PQresultStatus(PQgetResult(e->backend.db)));
+     }
 
    return p;
 }
