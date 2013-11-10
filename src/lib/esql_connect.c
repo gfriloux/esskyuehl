@@ -25,6 +25,9 @@
  * @brief Connect to an sql server
  * Use this function to connect to an sql server with @p e after
  * setting its type with esql_type_set.
+ * @note Connecting is immediate, but an ESQL_EVENT_CONNECT is emitted if there
+ * is no callback set.
+ * @see esql_connect_callback_set()
  * @param e The object to connect with (NOT NULL)
  * @param addr The address of the server (ie "127.0.0.1:3306") (NOT NULL)
  * @param user The username to connect with (NOT NULL)
@@ -109,7 +112,7 @@ esql_disconnect(Esql *e)
 
 /**
  * @brief Set a connected callback for an #Esql object
- * Use this function to set a callback to override the ESQL_EVENT_CONNECTED event,
+ * Use this function to set a callback to override the ESQL_EVENT_CONNECT event,
  * calling @p cb with @p data instead.
  * @param e The #Esql object (NOT NULL)
  * @param cb The callback
