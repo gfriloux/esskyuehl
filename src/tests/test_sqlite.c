@@ -27,7 +27,6 @@ struct ctx {
    unsigned int errors;
    unsigned int res;
 };
-static Ecore_Event_Handler *evh = NULL;
 #define INSERTED_ROWS 10
 
 static void
@@ -37,11 +36,10 @@ _assert(Eina_Bool expr, const char* file, int line)
 }
 #define assert(_expr) _assert(_expr, __FILE__, __LINE__);
 
-static Eina_Bool
-on_query_results(void *data, int type __UNUSED__, void *event_info)
+static void
+on_query_results(Esql_Res *res, void *data)
 {
    struct ctx *ctx = data;
-   Esql_Res *res = event_info;
    const Esql_Row *row;
    Eina_Iterator *itr;
    const char *cname;
@@ -87,15 +85,12 @@ on_query_results(void *data, int type __UNUSED__, void *event_info)
    eina_iterator_free(itr);
 
    ecore_main_loop_quit();
-
-   return EINA_TRUE;
 }
 
-static Eina_Bool
-on_query_populate(void *data, int type __UNUSED__, void *event_info)
+static void
+on_query_populate(Esql_Res *res, void *data)
 {
    struct ctx *ctx = data;
-   Esql_Res *res = event_info;
 
    assert(esql_res_rows_count(res) == 0);
    assert(esql_res_cols_count(res) == 0);
@@ -107,13 +102,8 @@ on_query_populate(void *data, int type __UNUSED__, void *event_info)
         Esql *e = esql_res_esql_get(res);
         Esql_Query_Id id = esql_query(e, ctx, "SELECT i, s FROM t");
         assert(id > 0);
-        //esql_query_callback_set(id, on_query_results, ctx);
-        ecore_event_handler_del(evh);
-        evh = ecore_event_handler_add(ESQL_EVENT_RESULT, on_query_results, ctx);
-        return EINA_FALSE;
+        esql_query_callback_set(id, on_query_results);
      }
-
-   return EINA_TRUE;
 }
 
 static Eina_Bool
@@ -124,12 +114,9 @@ on_connect(void *data, int type __UNUSED__, void *event_info)
    Esql_Query_Id id;
    int i;
 
-   /* TODO: esql_query_callback_set() should get void* and use it instead! */
-   evh = ecore_event_handler_add(ESQL_EVENT_RESULT, on_query_populate, ctx);
-
    id = esql_query(e, ctx, "CREATE TABLE t (i INTEGER, s VARCHAR(100))");
    assert(id > 0);
-   //esql_query_callback_set(id,  on_query_populate, ctx);
+   esql_query_callback_set(id, on_query_populate);
 
    for (i = 0; i < INSERTED_ROWS; i++)
      {
@@ -138,12 +125,7 @@ on_connect(void *data, int type __UNUSED__, void *event_info)
         id = esql_query_args(e, ctx, "INSERT INTO t (i, s) VALUES (%d, '%s')",
                              i, buf);
         assert(id > 0);
-        //esql_query_callback_set(id, on_query_populate, ctx);
-     }
-
-     {
-        id = esql_query(e, ctx, "SELECT i, s FROM t");
-        assert(id > 0);
+        esql_query_callback_set(id, on_query_populate);
      }
 
    ctx->conns++;
