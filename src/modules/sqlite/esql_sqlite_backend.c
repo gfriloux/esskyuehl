@@ -223,9 +223,7 @@ esql_sqlite_query(Esql *e, const char *query, unsigned int len)
 static void
 esql_sqlite_res_free(Esql_Res *res)
 {
-   Esql_Sqlite_Res *esql_sqlite_res = res->backend.res;
-
-   free(esql_sqlite_res);
+   free(res->backend.res);
 }
 
 static void
@@ -245,7 +243,6 @@ esql_sqlite_row_add(Esql_Res *res)
    Esql_Row *r;
    Eina_Value *val;
    unsigned int i;
-   Esql_Sqlite_Res *esql_sqlite_res = res->backend.res;
 
    r = esql_row_calloc(1);
    EINA_SAFETY_ON_NULL_RETURN(r);
