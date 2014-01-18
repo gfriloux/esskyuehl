@@ -287,7 +287,7 @@ esql_sqlite_row_add(Esql_Res *res)
              eina_value_set(&inv, sqlite3_column_double(res->e->backend.stmt, i));
              break;
 
-           default:
+           case SQLITE_BLOB:
              {
                 Eina_Value_Blob blob;
                 char *tmp;
@@ -304,6 +304,7 @@ esql_sqlite_row_add(Esql_Res *res)
                 eina_value_set(&inv, blob);
                 eina_array_push(memory, tmp);
              }
+           default: continue;
           }
 
         eina_value_struct_member_value_set(val, m, &inv);
