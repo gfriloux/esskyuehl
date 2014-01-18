@@ -69,6 +69,7 @@ typedef struct Esql     Esql;
 /**
  * @typedef Esql_Res
  * Esskyuehl result set object for managing query results
+ * @warning BLOB types will NOT have their data freed by this library!
  */
 typedef struct Esql_Res Esql_Res;
 /**
