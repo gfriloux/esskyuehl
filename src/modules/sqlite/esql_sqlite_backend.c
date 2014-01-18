@@ -20,7 +20,6 @@
 
 typedef struct _Esql_Sqlite_Res
 {
-   Eina_Array *memory;
    sqlite3_stmt *stmt;
 } Esql_Sqlite_Res;
 
@@ -142,7 +141,6 @@ esql_sqlite_res_init(Esql *e)
         return EINA_FALSE;
      }
 
-   res->memory = eina_array_new(10);
    res->stmt = e->backend.stmt;
    e->res->backend.res = res;
 
@@ -226,12 +224,7 @@ static void
 esql_sqlite_res_free(Esql_Res *res)
 {
    Esql_Sqlite_Res *esql_sqlite_res = res->backend.res;
-   Eina_Array *memory = esql_sqlite_res->memory;
 
-   while (eina_array_count(memory))
-     free(eina_array_pop(memory));
-
-   eina_array_free(memory);
    free(esql_sqlite_res);
 }
 
@@ -253,7 +246,6 @@ esql_sqlite_row_add(Esql_Res *res)
    Eina_Value *val;
    unsigned int i;
    Esql_Sqlite_Res *esql_sqlite_res = res->backend.res;
-   Eina_Array *memory = esql_sqlite_res->memory;
 
    r = esql_row_calloc(1);
    EINA_SAFETY_ON_NULL_RETURN(r);
@@ -302,7 +294,6 @@ esql_sqlite_row_add(Esql_Res *res)
                 blob.size = size;
                 eina_value_setup(&inv, EINA_VALUE_TYPE_BLOB);
                 eina_value_set(&inv, blob);
-                eina_array_push(memory, tmp);
                 break;
              }
            default: continue;
