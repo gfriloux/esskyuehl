@@ -302,7 +302,7 @@ esql_sqlite_row_add(Esql_Res *res)
                 blob.size = size;
                 eina_value_setup(&inv, EINA_VALUE_TYPE_BLOB);
                 eina_value_set(&inv, blob);
-                eina_array_push(memory, tmp);
+                break;
              }
            default: continue;
           }
