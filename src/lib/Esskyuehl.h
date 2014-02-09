@@ -140,6 +140,7 @@ EAPI void            esql_reconnect_set(Esql *e, Eina_Bool enable);
 EAPI Eina_Bool       esql_reconnect_get(const Esql *e);
 
 /* query */
+EAPI char           *esql_string_escape(Eina_Bool   backslashes, const char *s);
 EAPI Esql_Query_Id   esql_query(Esql *e, void *data, const char *query);
 EAPI Esql_Query_Id   esql_query_args(Esql *e, void *data, const char *fmt, ...);
 EAPI Esql_Query_Id   esql_query_vargs(Esql *e, void *data, const char *fmt, va_list args);

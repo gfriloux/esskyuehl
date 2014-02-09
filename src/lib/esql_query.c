@@ -22,7 +22,7 @@ static Esql_Query_Id esql_id = 0;
 Eina_Hash *esql_query_callbacks = NULL;
 Eina_Hash *esql_query_data = NULL;
 
-char *
+EAPI char *
 esql_string_escape(Eina_Bool   backslashes,
                    const char *s)
 {
