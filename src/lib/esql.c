@@ -68,6 +68,14 @@ static Eina_Bool module_check(Eina_Module *m, void *d __UNUSED__)
 }
 
 
+void
+esql_fake_free(void *data __UNUSED__, Esql *e)
+{
+   e->error = NULL;
+   if (--e->event_count) return;
+   if (e->dead) esql_free(e);
+}
+
 /**
  * @brief Initialize Esql
  *
