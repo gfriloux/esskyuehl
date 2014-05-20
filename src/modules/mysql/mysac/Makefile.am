@@ -1,7 +1,6 @@
 AM_CFLAGS = \
   -I@top_srcdir@ \
-  @MYSQL_CFLAGS@ \
-  $(CC_PIC)
+  @MYSQL_CFLAGS@
 
 
 noinst_LTLIBRARIES = libmysac.la

@@ -12,7 +12,7 @@ lib_LTLIBRARIES = libesskyuehl.la
 libesskyuehl_la_LIBADD = \
   @EFL_LIBS@
 
-libesskyuehl_la_LDFLAGS = -version-info @version_info@ @release_info@ -no-undefined --as-needed
+libesskyuehl_la_LDFLAGS = @EFL_LTLIBRARY_FLAGS@
 
 libesskyuehl_la_SOURCES = \
 esql_private.h \

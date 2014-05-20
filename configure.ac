@@ -1,49 +1,20 @@
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-m4_define([v_maj], [1])
-m4_define([v_min], [0])
-m4_define([v_mic], [0])
-m4_define([v_rev], m4_esyscmd([(svnversion "${SVN_REPO_PATH:-.}" | grep -v '\(export\|Unversioned directory\)' || echo 0) | awk -F : '{printf("%s\n", $1);}' | tr -d ' :MSP\n']))
-m4_if(v_rev, [0], [m4_define([v_rev], m4_esyscmd([git log 2> /dev/null | (grep -m1 git-svn-id || echo 0) | sed -e 's/.*@\([0-9]*\).*/\1/' | tr -d '\n']))])
-##--   When released, remove the dnl on the below line
-dnl m4_undefine([v_rev])
-##--   When doing snapshots - change soname. remove dnl on below line
-m4_define([relname], [ver-pre-svn-09])
-m4_define([v_rel], [-release relname])
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-m4_ifdef([v_rev], [m4_define([v_ver], [v_maj.v_min.v_mic.v_rev])],
-[m4_define([v_ver], [v_maj.v_min.v_mic])])
-m4_define([lt_rev], m4_eval(v_maj + v_min))
-m4_define([lt_cur], v_mic)
-m4_define([lt_age], v_min)
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-
-AC_INIT([esskyuehl], [v_ver], [michael.blumenkrantz@gmail.com], [esskyuehl])
+EFL_VERSION([1], [0], [0], [release])
+AC_INIT([esskyuehl], [efl_version], [michael.blumenkrantz@gmail.com], [esskyuehl])
 AC_PREREQ([2.57])
 AC_CONFIG_SRCDIR([configure.ac])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 
-AC_GNU_SOURCE
+AC_USE_SYSTEM_EXTENSIONS
 AC_ISC_POSIX
 
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-m4_ifdef([v_rev], , [m4_define([v_rev], [0])])
-m4_ifdef([v_rel], , [m4_define([v_rel], [])])
-AC_DEFINE_UNQUOTED(VMAJ, [v_maj], [Major version])
-AC_DEFINE_UNQUOTED(VMIN, [v_min], [Minor version])
-AC_DEFINE_UNQUOTED(VMIC, [v_mic], [Micro version])
-AC_DEFINE_UNQUOTED(VREV, [v_rev], [Revison])
-version_info="lt_rev:lt_cur:lt_age"
-release_info="v_rel"
-AC_SUBST(version_info)
-AC_SUBST(release_info)
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
-VMAJ=v_maj
-AC_SUBST(VMAJ)
+AC_LIBTOOL_WIN32_DLL
+define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])dnl
+define([AC_LIBTOOL_LANG_F77_CONFIG], [:])dnl
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+LT_INIT([win32-dll disable-static pic-only])
+EFL_INIT
+
 
 AM_INIT_AUTOMAKE([1.6 dist-bzip2])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -55,8 +26,12 @@ AM_PROG_CC_C_O
 AC_PROG_MAKE_SET
 AC_FUNC_ALLOCA
 
-CC_PIC="$lt_prog_compiler_pic"
-AC_SUBST([CC_PIC])
+m4_ifdef([v_mic],
+   [
+    EFL_COMPILER_FLAG([-Wshadow])
+    EFL_COMPILER_FLAG([-Wall])
+    EFL_COMPILER_FLAG([-W])
+   ])
 
 case "$host_os" in
    mingw32ce*)
@@ -80,7 +55,7 @@ esac
 
 AC_DEFINE_UNQUOTED(SHARED_LIB_SUFFIX, "${MODULE_EXT}", [Suffix for shared objects])
 
-requirement_esskyuehl="eina >= 1.1.0 ecore >= 1.1.99"
+requirement_esskyuehl="eina ecore"
 AC_SUBST(requirement_esskyuehl)
 
 PKG_CHECK_MODULES([EFL], [$requirement_esskyuehl])
