@@ -153,16 +153,6 @@ EFL_CHECK_DOXYGEN([build_doc="yes"], [build_doc="no"])
 
 AC_OUTPUT([
 Makefile
-doc/esskyuehl.dox
-doc/Makefile
-src/Makefile
-src/lib/Makefile
-src/modules/Makefile
-src/modules/postgresql/Makefile
-src/modules/sqlite/Makefile
-src/modules/mysql/Makefile
-src/modules/mysql/mysac/Makefile
-src/tests/Makefile
 esskyuehl.pc
 ])
 
