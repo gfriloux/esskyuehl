@@ -57,14 +57,14 @@ esql_sqlite_disconnect(Esql *e)
 }
 
 static int
-esql_sqlite_fd_get(Esql *e __UNUSED__)
+esql_sqlite_fd_get(Esql *e EINA_UNUSED)
 {
    /* dummy return */
    return -1;
 }
 
 static void
-esql_sqlite_thread_end_cb(Esql *e, Ecore_Thread *et __UNUSED__)
+esql_sqlite_thread_end_cb(Esql *e, Ecore_Thread *et EINA_UNUSED)
 {
    DBG("(e=%p)", e);
    e->backend.thread = NULL;
@@ -74,7 +74,7 @@ esql_sqlite_thread_end_cb(Esql *e, Ecore_Thread *et __UNUSED__)
 }
 
 static void
-esql_sqlite_thread_cancel_cb(Esql *e, Ecore_Thread *et __UNUSED__)
+esql_sqlite_thread_cancel_cb(Esql *e, Ecore_Thread *et EINA_UNUSED)
 {
    DBG("(e=%p)", e);
    e->backend.thread = NULL;
@@ -209,7 +209,7 @@ esql_sqlite_io(Esql *e)
 }
 
 static void
-esql_sqlite_setup(Esql *e, const char *addr, const char *user __UNUSED__, const char *passwd __UNUSED__)
+esql_sqlite_setup(Esql *e, const char *addr, const char *user EINA_UNUSED, const char *passwd EINA_UNUSED)
 {
    e->backend.conn_str = strdup(addr);
 }
@@ -227,12 +227,12 @@ esql_sqlite_res_free(Esql_Res *res)
 }
 
 static void
-esql_sqlite_res(Esql_Res *res __UNUSED__)
+esql_sqlite_res(Esql_Res *res EINA_UNUSED)
 {
 }
 
 static char *
-esql_sqlite_escape(Esql *e __UNUSED__, unsigned int *len, const char *fmt, va_list args)
+esql_sqlite_escape(Esql *e EINA_UNUSED, unsigned int *len, const char *fmt, va_list args)
 {
    return esql_query_escape(EINA_TRUE, len, fmt, args);
 }

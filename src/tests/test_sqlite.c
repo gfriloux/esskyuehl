@@ -107,7 +107,7 @@ on_query_populate(Esql_Res *res, void *data)
 }
 
 static Eina_Bool
-on_connect(void *data, int type __UNUSED__, void *event_info)
+on_connect(void *data, int type EINA_UNUSED, void *event_info)
 {
    struct ctx *ctx = data;
    Esql *e = event_info;
@@ -134,7 +134,7 @@ on_connect(void *data, int type __UNUSED__, void *event_info)
 }
 
 static Eina_Bool
-on_error(void *data, int type __UNUSED__, void *event_info)
+on_error(void *data, int type EINA_UNUSED, void *event_info)
 {
    struct ctx *ctx = data;
    Esql *e = event_info;

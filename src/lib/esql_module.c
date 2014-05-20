@@ -37,7 +37,7 @@ static Eina_Value_Struct_Operations esql_module_desc_ops = {
 };
 
 static void *
-esql_module_desc_alloc(const Eina_Value_Struct_Operations *ops __UNUSED__, const Eina_Value_Struct_Desc *desc)
+esql_module_desc_alloc(const Eina_Value_Struct_Operations *ops EINA_UNUSED, const Eina_Value_Struct_Desc *desc)
 {
    Esql_Res *res;
 
@@ -48,7 +48,7 @@ esql_module_desc_alloc(const Eina_Value_Struct_Operations *ops __UNUSED__, const
 }
 
 static void
-esql_module_desc_free(const Eina_Value_Struct_Operations *ops __UNUSED__, const Eina_Value_Struct_Desc *desc, void *memory)
+esql_module_desc_free(const Eina_Value_Struct_Operations *ops EINA_UNUSED, const Eina_Value_Struct_Desc *desc, void *memory)
 {
    Esql_Res *res;
 
@@ -59,7 +59,7 @@ esql_module_desc_free(const Eina_Value_Struct_Operations *ops __UNUSED__, const 
 }
 
 static const Eina_Value_Struct_Member *
-esql_module_desc_find_member(const Eina_Value_Struct_Operations *ops __UNUSED__, const Eina_Value_Struct_Desc *desc, const char *name)
+esql_module_desc_find_member(const Eina_Value_Struct_Operations *ops EINA_UNUSED, const Eina_Value_Struct_Desc *desc, const char *name)
 {
    const Eina_Value_Struct_Member *itr, *itr_end;
 

@@ -40,7 +40,7 @@ static int esql_mysac_connect(Esql *e);
 static void esql_mysac_database_set(Esql *e, const char *database_name);
 static int esql_mysac_io(Esql *e);
 static void esql_mysac_setup(Esql *e, const char *addr, const char *user, const char *passwd);
-static void esql_mysac_query(Esql *e, const char *query, unsigned int len __UNUSED__);
+static void esql_mysac_query(Esql *e, const char *query, unsigned int len EINA_UNUSED);
 static void esql_mysac_res_free(Esql_Res *res);
 static void esql_mysac_res(Esql_Res *res);
 static char *esql_mysac_escape(Esql *e, unsigned int *len, const char *fmt, va_list args);
@@ -175,7 +175,7 @@ esql_mysac_setup(Esql *e, const char *addr, const char *user, const char *passwd
 }
 
 static void
-esql_mysac_query(Esql *e, const char *query, unsigned int len __UNUSED__)
+esql_mysac_query(Esql *e, const char *query, unsigned int len EINA_UNUSED)
 {
    MYSAC_RES *res;
 

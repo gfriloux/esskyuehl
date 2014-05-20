@@ -207,7 +207,7 @@ struct Esql_Row
    Eina_Value   value;
 };
 
-void esql_fake_free(void *data __UNUSED__, Esql *e);
+void esql_fake_free(void *data EINA_UNUSED, Esql *e);
 
 void esql_res_free(void *data, Esql_Res * res);
 Eina_Bool esql_connect_handler(Esql *e, Ecore_Fd_Handler *fdh);

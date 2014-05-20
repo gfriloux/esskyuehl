@@ -33,7 +33,7 @@ callback_(Esql_Res *res, char *data)
 }
 
 static Eina_Bool
-result_(void *data __UNUSED__, int type __UNUSED__, Esql_Res *res)
+result_(void *data EINA_UNUSED, int type EINA_UNUSED, Esql_Res *res)
 {
    printf("%i rows returned!\n", esql_res_rows_count(res)); /**< could do more here, but it's a simple example so we just print the number of rows */
    printf("data stored: '%s'\n", (char*)esql_res_data_get(res));
@@ -44,7 +44,7 @@ result_(void *data __UNUSED__, int type __UNUSED__, Esql_Res *res)
 }
 
 static Eina_Bool
-error_(void *data __UNUSED__, int type __UNUSED__, Esql *e)
+error_(void *data EINA_UNUSED, int type EINA_UNUSED, Esql *e)
 {
    fprintf(stderr, "%s\n", esql_error_get(e)); /**< print error condition */
    printf("Query string: '%s'\n", esql_current_query_get(e));
@@ -53,7 +53,7 @@ error_(void *data __UNUSED__, int type __UNUSED__, Esql *e)
 }
 
 static Eina_Bool
-connect_(void *data __UNUSED__, int type __UNUSED__, Esql *e)
+connect_(void *data EINA_UNUSED, int type EINA_UNUSED, Esql *e)
 {
    Esql_Query_Id id;
 
@@ -70,7 +70,7 @@ connect_(void *data __UNUSED__, int type __UNUSED__, Esql *e)
 }
 
 static void
-connect_cb(Esql *e, void *data __UNUSED__)
+connect_cb(Esql *e, void *data EINA_UNUSED)
 {
    Esql_Query_Id id;
 

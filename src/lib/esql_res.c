@@ -105,7 +105,7 @@ _esql_res_free(Esql_Res *res)
 }
 
 void
-esql_res_free(void *data __UNUSED__,
+esql_res_free(void *data EINA_UNUSED,
               Esql_Res  *res)
 {
    esql_res_unref(res);

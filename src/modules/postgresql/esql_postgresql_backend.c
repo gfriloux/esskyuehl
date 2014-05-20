@@ -200,7 +200,7 @@ esql_postgresql_setup(Esql *e, const char *addr, const char *user, const char *p
 }
 
 static void
-esql_postgresql_query(Esql *e, const char *query, unsigned int len __UNUSED__)
+esql_postgresql_query(Esql *e, const char *query, unsigned int len EINA_UNUSED)
 {
    EINA_SAFETY_ON_FALSE_RETURN(PQsendQuery(e->backend.db, query));
 }
@@ -252,7 +252,7 @@ esql_postgresql_res(Esql_Res *res)
 }
 
 static char *
-esql_postgresql_escape(Esql *e __UNUSED__, unsigned int *len, const char *fmt, va_list args)
+esql_postgresql_escape(Esql *e EINA_UNUSED, unsigned int *len, const char *fmt, va_list args)
 {
    char *ret;
 

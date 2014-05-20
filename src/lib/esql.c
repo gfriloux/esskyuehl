@@ -31,7 +31,7 @@ EAPI int ESQL_EVENT_DISCONNECT = 0;
 
 static Eina_Inlist *esql_modules = NULL;
 
-static Eina_Bool module_check(Eina_Module *m, void *d __UNUSED__)
+static Eina_Bool module_check(Eina_Module *m, void *d EINA_UNUSED)
 {
    const char *filename;
    Esql_Module_Cb cb;
@@ -69,7 +69,7 @@ static Eina_Bool module_check(Eina_Module *m, void *d __UNUSED__)
 
 
 void
-esql_fake_free(void *data __UNUSED__, Esql *e)
+esql_fake_free(void *data EINA_UNUSED, Esql *e)
 {
    e->error = NULL;
    if (--e->event_count) return;
