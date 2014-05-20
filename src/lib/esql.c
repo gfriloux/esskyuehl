@@ -179,6 +179,21 @@ esql_new(Esql_Type type)
    return e;
 }
 
+
+/**
+ * @brief Return the overall connection status of an object
+ * @param e The #Esql object (NOT NULL)
+ * @return true if connected, else false
+ * @note For pool objects, this guarantees only that at least
+ * one connection is active, not that all connections are active.
+ */
+Eina_Bool
+esql_isconnected(const Esql *e)
+{
+   EINA_SAFETY_ON_NULL_RETURN_VAL(e, EINA_FALSE);
+   return e->connected;
+}
+
 /**
  * @brief Retrieve data previously associated with an object
  * @param e The #Esql object (NOT NULL)

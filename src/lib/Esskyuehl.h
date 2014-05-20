@@ -118,6 +118,7 @@ EAPI int             esql_shutdown(void);
 
 /* esql */
 EAPI Esql           *esql_new(Esql_Type type);
+EAPI Eina_Bool       esql_isconnected(const Esql *e);
 EAPI Esql           *esql_pool_new(int size, Esql_Type type);
 EAPI void           *esql_data_get(const Esql *e);
 EAPI void            esql_data_set(Esql *e, void *data);
