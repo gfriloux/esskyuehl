@@ -104,6 +104,7 @@ esql_query_escape(Eina_Bool     backslashes,
      {
         Eina_Bool l = EINA_FALSE;
         Eina_Bool ll = EINA_FALSE;
+        Eina_Bool error;
         long long int i;
         unsigned long long int u;
         double d;
@@ -173,8 +174,9 @@ top:
              if (!s) break;
              s = esql_string_escape(backslashes, s);
              EINA_SAFETY_ON_NULL_GOTO(s, err);
-             EINA_SAFETY_ON_FALSE_GOTO(eina_strbuf_append(buf, s), err);
+             error = eina_strbuf_append(buf, s);
              free(s);
+             EINA_SAFETY_ON_TRUE_GOTO(error, err);
              break;
 
            case 'c':
@@ -190,8 +192,9 @@ top:
                 c[1] = c[2] = 0;
                 s = esql_string_escape(backslashes, c);
                 EINA_SAFETY_ON_NULL_GOTO(s, err);
-                EINA_SAFETY_ON_FALSE_GOTO(eina_strbuf_append(buf, s), err);
+                error = !eina_strbuf_append(buf, s);
                 free(s);
+                EINA_SAFETY_ON_TRUE_GOTO(error, err);
              }
              break;
 
