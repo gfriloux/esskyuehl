@@ -77,7 +77,7 @@ _esql_res_free(Esql_Res *res)
         /* memset is not needed, but leave it here to find if people
          * kept reference to values after row is removed, see below.
          */
-        memset(res->desc, 0, sizeof(res->desc));
+        memset(res->desc, 0, sizeof(*res->desc));
         free(res->desc);
 
         /* NOTE: after this point, if users are still holding 'desc' they will
