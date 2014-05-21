@@ -187,6 +187,7 @@ esql_postgresql_setup(Esql *e, const char *addr, const char *user, const char *p
    const char *db;
 
    if (e->backend.conn_str && (!addr) && (!user) && (!passwd)) return; /* reconnect attempt */
+   if ((!addr) || (!user)) return;
    db = e->database ? e->database : user;
 
    port = strchr(addr, ':');
@@ -194,8 +195,8 @@ esql_postgresql_setup(Esql *e, const char *addr, const char *user, const char *p
      e->backend.conn_str_len = snprintf(buf, sizeof(buf), "host=%s port=%s dbname=%s user=%s password=%s connect_timeout=5",
                                                           strndupa(addr, port - addr), port + 1, db, user, passwd);
    else
-     e->backend.conn_str_len = snprintf(buf, sizeof(buf), "host=%s dbname=%s user=%s password=%s connect_timeout=5",
-                                                          addr, db, user, passwd);
+     e->backend.conn_str_len = snprintf(buf, sizeof(buf), "host=%s dbname=%s user=%s %s%s connect_timeout=5",
+                                                          addr, db, user, passwd ? "password=" : "", passwd ?: "");
    e->backend.conn_str = strdup(buf);
 }
 
