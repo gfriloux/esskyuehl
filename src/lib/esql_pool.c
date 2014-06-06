@@ -69,7 +69,7 @@ esql_pool_rebalance(Esql_Pool *ep, Esql *e /* idle connection */)
 void
 esql_pool_free(Esql_Pool *ep)
 {
-   Esql *e;
+   Esql *e = NULL;
    Eina_Inlist *l;
 
    EINA_INLIST_FOREACH_SAFE(ep->esqls, l, e)

@@ -132,7 +132,7 @@ eina_fail:
 int
 esql_shutdown(void)
 {
-   Esql_Module *mod;
+   Esql_Module *mod = NULL;
    Eina_Inlist *ll;
    if (--esql_init_count_ != 0)
      return esql_init_count_;

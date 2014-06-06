@@ -63,7 +63,7 @@ esql_row_free(Esql_Row *r)
 static void
 _esql_res_free(Esql_Res *res)
 {
-   Esql_Row *r;
+   Esql_Row *r = NULL;
    Eina_Inlist *l;
 
    DBG("res=%p (refcount=%d)", res, res->refcount);
