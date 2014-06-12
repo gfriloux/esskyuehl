@@ -60,6 +60,7 @@ AC_SUBST(requirement_esskyuehl)
 
 PKG_CHECK_MODULES([EFL], [$requirement_esskyuehl])
 
+MYSQL_LIBS=""
 AC_ARG_ENABLE([mysql],
    [AC_HELP_STRING([--disable-mysql], [disable mysql module @<:@default=detect@:>@])],
    [
@@ -97,6 +98,8 @@ if test "x${want_mysql}" != "xno" ; then
    AC_SUBST(MYSQL_CFLAGS)
    AC_SUBST(MYSQL_LIBS)
 fi
+AM_CONDITIONAL([MYSQL], [test -n "$MYSQL_LIBS"])
+AC_SUBST(MYSQL_LIBS)
 
 AC_ARG_ENABLE([postgresql],
    [AC_HELP_STRING([--disable-postgresql], [disable postgresql module @<:@default=detect@:>@])],
@@ -109,6 +112,7 @@ AC_ARG_ENABLE([postgresql],
    ],
    [want_postgresql="yes"])
 
+POSTGRESQL_LIBS=""
 if test "x${want_postgresql}" != "xno" ; then
    AC_MSG_CHECKING([for postgresql])
    AC_PATH_PROG([pg_config], [pg_config])
@@ -126,10 +130,10 @@ if test "x${want_postgresql}" != "xno" ; then
    else
          AC_MSG_RESULT([no])
    fi
-   AM_CONDITIONAL([POSTGRESQL], [test -n "$POSTGRESQL_LIBS"])
    AC_SUBST(POSTGRESQL_CFLAGS)
-   AC_SUBST(POSTGRESQL_LIBS)
 fi
+AM_CONDITIONAL([POSTGRESQL], [test -n "$POSTGRESQL_LIBS"])
+AC_SUBST(POSTGRESQL_LIBS)
 
 AC_ARG_ENABLE([sqlite],
    [AC_HELP_STRING([--disable-sqlite], [disable sqlite module @<:@default=detect@:>@])],
