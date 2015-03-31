@@ -174,7 +174,7 @@ top:
              if (!s) break;
              s = esql_string_escape(backslashes, s);
              EINA_SAFETY_ON_NULL_GOTO(s, err);
-             error = eina_strbuf_append(buf, s);
+             error = !eina_strbuf_append(buf, s);
              free(s);
              EINA_SAFETY_ON_TRUE_GOTO(error, err);
              break;
