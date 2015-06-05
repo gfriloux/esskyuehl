@@ -173,6 +173,7 @@ esql_sqlite_query_cb(Esql *e, Ecore_Thread *et)
                }
              sqlite3_finalize(e->backend.stmt);
              e->backend.stmt = NULL;
+             e->res->id = sqlite3_last_insert_rowid(e->backend.db);
              return;
            case SQLITE_ROW:
              if (!e->res)
