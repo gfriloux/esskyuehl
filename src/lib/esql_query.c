@@ -111,8 +111,10 @@ esql_query_escape(Eina_Bool     backslashes,
         char *s;
 
         if (!pp) pp = fmt + fmtlen;
-        EINA_SAFETY_ON_FALSE_GOTO(eina_strbuf_append_length(buf, p, ((pp - p > 1) ? pp - p : 1)), err);
+        if(pp - p > 1)
+           EINA_SAFETY_ON_FALSE_GOTO(eina_strbuf_append_length(buf, p, pp - p), err);
         if (*pp != '%') break;  /* no more fmt strings */
+
 top:
         switch (pp[1])
           {
