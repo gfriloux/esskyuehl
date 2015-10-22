@@ -1,0 +1,51 @@
+esskyuehl (1.0.0.1-1) stable; urgency=low
+
+  * GIT rev. a70221e3dcaa78bf05b076acc507a2b42b100a6a : Fixes use of esql_query_callback_set().
+  * GIT rev. 2ad68672793e2b2bbc40b8231d0cc2ce3cdfca82 : Change previous fix to use ecore_job.
+  * GIT rev. 435cae95419b525e2be70fa9ea098f43458e0aa6 : Fix possibility to send new queries after a query error.
+  * GIT rev. 3f0e2af70a5383705fa888dfcbc67aac6b38745f : Fix an invalid read over freed Esql_Res objects.
+
+ -- Guillaume Friloux <guillaume.friloux@asp64.com>  Thu, 22 Jul 2013 14:59:00 +0200
+
+esskyuehl (1.0.0.0-2) testing; urgency=low
+
+  * Same as previous
+
+ -- Guillaume Friloux <guillaume.friloux@asp64.com>  Tue, 21 May 2013 08:37:00 +0100
+
+esskyuehl (1.0.0.0-1) unstable; urgency=low
+
+  * Esskyuehl is now released !
+  * GIT rev. 6b1e4857f2558b2f555420f30d333d621579df10 : two kernel list pointers werent updated when reallocating the MYSAC_RES structure, leading to reads on freed data
+
+ -- Guillaume Friloux <guillaume.friloux@asp64.com>  Thu, 16 May 2013 09:08:00 +0100
+
+esskyuehl (0.9.999-5) testing; urgency=low
+
+  * Testing package
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 15 Apr 2013 09:54:00 +0100
+
+esskyuehl (0.9.999-4) unstable; urgency=low
+
+  * SVN rev. 84475 : add mysac support for stored procedures
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Thu, 28 Mar 2013 16:00:00 +0100
+
+esskyuehl (0.9.999-3) unstable; urgency=low
+
+  * SVN rev. 83183 : fix blob issues
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 21 Jan 2013 09:58:00 +0100
+
+esskyuehl (0.9.999-2) unstable; urgency=low
+
+  * No more efl-server dependencies, but use single eina / eet libs
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 21 Jan 2013 09:58:00 +0100
+
+esskyuehl (0.9.999-1) unstable; urgency=low
+
+  * First version
+
+ -- Guillaume Friloux <guillaume.friloux@asp64.com>  Fri, 12 Oct 2012 16:27:16 +0100

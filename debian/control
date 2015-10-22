@@ -1,0 +1,37 @@
+Source: esskyuehl
+Section: libs
+Priority: extra
+Maintainer: Guillaume Friloux <guillaume.friloux@asp64.com>
+Build-Depends: debhelper (>= 7.0.50~), libecore-dev (>= 1.1.0~)
+Standards-Version: 3.8.4
+Homepage: http://enlightenment.org
+
+Package: libesskyuehl
+Provides: libesskyuehl
+Architecture: any
+Depends: ${shlibs:Depends}, libeina1, libecore1
+Description: The Eio library is a library that implements an API for
+ Esskyuehl (ESQL) is a completely asynchronous client-side SQL library.
+
+Package: libesskyuehl-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, libesskyuehl (= ${binary:Version}), pkg-config
+Description: Eio headers and static libraries
+ Esskyuehl (ESQL) is a completely asynchronous client-side SQL library.
+ .
+ This package contains headers and libraries for the Esskyuehl library.
+
+Package: libesskyuehl-dbg
+Architecture: any
+Section: debug
+Depends: ${shlibs:Depends}, libesskyuehl (= ${binary:Version})
+Priority: extra
+Description: Debugging symbols for libesskyuehl
+ Esskyuehl (ESQL) is a completely asynchronous client-side SQL library.
+ .
+ This package contains unstripped shared libraries. It is provided primarily
+ to provide a backtrace with names in a debugger, this makes it somewhat easier
+ to interpret core dumps. The libraries are installed in /usr/lib/debug and
+ are automatically used by gdb.
+
