@@ -28,7 +28,8 @@ doc:
 endif
 
 EXTRA_DIST += \
-doc/Doxyfile.in \
+doc/Doxyfile \
+doc/DoxygenLayout.xml \
 doc/img/edoxy.css \
 doc/img/header_menu_current_background.png \
 doc/img/foot_bg.png \
