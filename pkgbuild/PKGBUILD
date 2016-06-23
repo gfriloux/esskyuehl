@@ -1,0 +1,34 @@
+# Maintainer: Guillaume Friloux <guillaume@friloux.me>
+
+_pkgname=esskyuehl
+pkgname=('esskyuehl')
+pkgver=1.0.0
+pkgrel=1
+
+pkgdesc="Enlightenment Foundation Libraries - Esskyuehl"
+arch=('i686' 'x86_64')
+url="https://github.com/gfriloux/esskyuehl"
+license=('LGPL2.1' 'FOSS')
+depends=('')
+provides=("$_pkgname=$pkgver")
+conflicts=("$_pkgname")
+options=('debug')
+
+build()
+{
+  cd "../.."
+  [[ -e Makefile ]] && make clean distclean
+  [[ -e autogen.sh ]] && _configure=autogen.sh || _configure=configure
+  ./$_configure --prefix=/usr                                                   
+  make
+}
+
+package_esskyuehl()
+{
+  cd "../.."
+  make -j1 DESTDIR="$pkgdir/" install
+  install -Dm644 COPYING "$pkgdir/usr/share/doc/${pkgname%-git}/COPYING"
+  install -Dm644 COPYING-MYSQL "$pkgdir/usr/share/doc/${pkgname%-git}/COPYING-MYSQL"
+  install -Dm644 AUTHORS "$pkgdir/usr/share/doc/${pkgname%-git}/AUTHORS"
+}
+
