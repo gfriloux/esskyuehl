@@ -155,15 +155,10 @@ AM_CONDITIONAL([SQLITE], [test -n "$SQLITE3_LIBS"])
 
 EFL_CHECK_DOXYGEN([build_doc="yes"], [build_doc="no"])
 
-AC_CONFIG_FILES([
-Makefile
-rpm/${PACKAGE}.spec
-])
-
-
 AC_OUTPUT([
 Makefile
 esskyuehl.pc
+rpm/${PACKAGE}.spec
 ])
 
 
