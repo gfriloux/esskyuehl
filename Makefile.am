@@ -17,7 +17,9 @@ ltconfig \
 ltmain.sh \
 missing \
 esskyuehl*doc*tar* \
-m4/l*
+m4/l* \
+rpm/$(PACKAGE).spec
+
 
 CLEANFILES = \
 $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
@@ -36,7 +38,8 @@ autogen.sh \
 esskyuehl.pc.in \
 m4/efl.m4 \
 m4/efl_compiler_flag.m4 \
-m4/efl_doxygen.m4
+m4/efl_doxygen.m4 \
+rpm/$(PACKAGE).spec.in
 
 moddir = $(libdir)/esskyuehl/$(MODULE_ARCH)
 mod_LTLIBRARIES =

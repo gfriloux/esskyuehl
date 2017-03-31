@@ -1,0 +1,75 @@
+%global package_name @PACKAGE@
+%if 0%{?rhel} >= 7
+%global with_systemd 1
+%else
+%global with_systemd 0
+%endif
+
+%define EFL_version 1.7
+
+Name:      lib%{package_name}
+Summary:   EFL asynchronous client-side SQL library
+Version:   @VERSION@
+Release:   1%{?dist}
+Group:     System Environment/Daemons
+URL:       https://github.com/gfriloux/esskyuehl
+License:   LGPLv2.1
+Source0:   %{package_name}-%{version}.tar.gz
+
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRequires: autoconf automake gcc pkgconfig libtool
+BuildRequires: eina-devel >= %{EFL_version}
+BuildRequires: ecore-devel >= %{EFL_version}
+BuildRequires: mysql-devel postgresql-devel sqlite-devel
+
+Requires:  ecore >= %{EFL_version}
+Requires:  eina >= %{EFL_version}
+Requires:  sqlite
+
+
+%description
+Esskyuehl (ESQL) is a completely asynchronous client-side SQL library that is
+part of the Enlightenment Foundation Libraries (EFL).
+It robustly supports both event-driven and callback-driven models for
+handling responses, and it uses a dynamic module-loading interface for
+its SQL server compatibility.
+
+
+%prep
+%setup -q -n %{package_name}-%{version}
+
+# Remove esskyuehl and MODULE_ARCH sub tree from the library path to comply
+# with GNU/Linux distro’s rules
+sed -ri 's|(moddir\s*=\s*\$\(libdir\))(/esskyuehl/\$\(MODULE_ARCH\))|\1|' \
+	src/modules/Makefile.mk
+
+%build
+NOCONFIGURE=yes ./autogen.sh
+%configure
+%__make %{?_smp_mflags}
+
+
+%install
+%{__rm} -rf %{buildroot}
+%make_install
+
+# remove static lib
+%{__rm} -rf %{buildroot}%{_libdir}/*.la
+
+%clean
+%{__rm} -rf %{buildroot}
+
+
+%files
+%defattr(-,root,root,-)
+%license COPYING COPYING-MYSQL
+%doc AUTHORS KNOWN_BUGS NEWS README THANKS
+%{_libdir}/*.so*
+
+
+%changelog
+* %(LANG=C date "+%a %b %d %Y") Auto RPM build - %{version}-%{release}
+- version %{version}
+
+* Fri Mar 31 2017 Davy Defaud <davy@defaud.net> - 1.0.0-1
+- Initial spec file creation
