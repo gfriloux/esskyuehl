@@ -26,13 +26,21 @@ Requires:  ecore >= %{EFL_version}
 Requires:  eina >= %{EFL_version}
 Requires:  sqlite
 
-
 %description
 Esskyuehl (ESQL) is a completely asynchronous client-side SQL library that is
 part of the Enlightenment Foundation Libraries (EFL).
 It robustly supports both event-driven and callback-driven models for
 handling responses, and it uses a dynamic module-loading interface for
 its SQL server compatibility.
+
+
+%package devel
+Summary:   Esskyuehl library headers and development files
+Group:     Development/Libraries
+Requires:  %{name} = %{version}
+
+%description devel
+EFL asynchronous client-side SQL library development files.
 
 
 %prep
@@ -65,6 +73,11 @@ NOCONFIGURE=yes ./autogen.sh
 %license COPYING
 %doc AUTHORS NEWS README THANKS
 %{_libdir}/*.so*
+
+%files devel
+%defattr(-, root, root,-)
+%{_libdir}/pkgconfig/%{package_name}.pc
+%{_includedir}/%{package_name}-1/*.h
 
 
 %changelog
