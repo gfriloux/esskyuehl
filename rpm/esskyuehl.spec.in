@@ -62,8 +62,8 @@ NOCONFIGURE=yes ./autogen.sh
 
 %files
 %defattr(-,root,root,-)
-%license COPYING COPYING-MYSQL
-%doc AUTHORS KNOWN_BUGS NEWS README THANKS
+%license COPYING
+%doc AUTHORS NEWS README THANKS
 %{_libdir}/*.so*
 
 
