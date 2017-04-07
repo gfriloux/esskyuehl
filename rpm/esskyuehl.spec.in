@@ -41,7 +41,7 @@ its SQL server compatibility.
 # Remove esskyuehl and MODULE_ARCH sub tree from the library path to comply
 # with GNU/Linux distro’s rules
 sed -ri 's|(moddir\s*=\s*\$\(libdir\))(/esskyuehl/\$\(MODULE_ARCH\))|\1|' \
-	src/modules/Makefile.mk
+	Makefile.am
 
 %build
 NOCONFIGURE=yes ./autogen.sh
