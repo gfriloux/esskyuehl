@@ -63,7 +63,11 @@ NOCONFIGURE=yes ./autogen.sh
 %files
 %defattr(-,root,root,-)
 %license COPYING
+<<<<<<< HEAD
 %doc AUTHORS NEWS README THANKS
+=======
+%doc AUTHORS KNOWN_BUGS NEWS README THANKS
+>>>>>>> branch 'master' of https://github.com/gfriloux/esskyuehl.git
 %{_libdir}/*.so*
 
 
