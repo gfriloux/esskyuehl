@@ -1,5 +1,5 @@
 %global package_name @PACKAGE@
-
+%{!?_licensedir:%global license %%doc}
 %define EFL_version 1.7
 
 Name:      lib%{package_name}
