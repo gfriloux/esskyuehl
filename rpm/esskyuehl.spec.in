@@ -1,5 +1,4 @@
 %global package_name @PACKAGE@
-%{!?_licensedir:%global license %%doc}
 %define EFL_version 1.7
 
 Name:      lib%{package_name}
@@ -75,6 +74,7 @@ NOCONFIGURE=yes ./autogen.sh
 
 %files
 %defattr(-,root,root,-)
+%{!?_licensedir:%global license %%doc}
 %license COPYING
 %doc AUTHORS NEWS README THANKS
 %{_libdir}/*.so*
