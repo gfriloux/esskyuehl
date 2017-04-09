@@ -1,9 +1,4 @@
 %global package_name @PACKAGE@
-%if 0%{?rhel} >= 7
-%global with_systemd 1
-%else
-%global with_systemd 0
-%endif
 
 %define EFL_version 1.7
 
@@ -21,7 +16,11 @@ BuildRequires: autoconf automake gcc pkgconfig libtool
 BuildRequires: eina-devel >= %{EFL_version}
 BuildRequires: ecore-devel >= %{EFL_version}
 BuildRequires: mysql-devel postgresql-devel sqlite-devel
-
+%if 0%{?rhel} == 6
+BuildRequires: autoconf268
+%else
+BuildRequires: autoconf
+%endif
 Requires:  ecore >= %{EFL_version}
 Requires:  eina >= %{EFL_version}
 Requires:  sqlite
@@ -46,13 +45,19 @@ EFL asynchronous client-side SQL library development files.
 %prep
 %setup -q -n %{package_name}-%{version}
 
-# Remove esskyuehl and MODULE_ARCH sub tree from the library path to comply
+# Remove esskyuehl and MODULE_ARCH subtree from the library path to comply
 # with GNU/Linux distro’s rules
 sed -ri 's|(moddir\s*=\s*\$\(libdir\))(/esskyuehl/\$\(MODULE_ARCH\))|\1|' \
 	Makefile.am
 
 %build
+
+%if 0%{?rhel} == 6
+/usr/bin/autoreconf268 -if
+%else
 NOCONFIGURE=yes ./autogen.sh
+%endif
+
 %configure
 %__make %{?_smp_mflags}
 
