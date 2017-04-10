@@ -82,6 +82,7 @@ autoreconf -if
 %files devel
 %defattr(-, root, root,-)
 %{_libdir}/pkgconfig/%{package_name}.pc
+%dir %{_includedir}/%{package_name}-1
 %{_includedir}/%{package_name}-1/*.h
 
 
