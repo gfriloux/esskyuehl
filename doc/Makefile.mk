@@ -8,7 +8,7 @@ doc-clean:
 	rm -rf doc/html/ doc/latex/ doc/man/ doc/xml/ doc/$(PACKAGE_DOCNAME).tar*
 
 doc: all doc-clean
-	$(efl_doxygen)
+	cd doc && $(efl_doxygen)
 	cp doc/img/* doc/html/
 	rm -rf doc/$(PACKAGE_DOCNAME).tar*
 	mkdir -p doc/$(PACKAGE_DOCNAME)/doc
