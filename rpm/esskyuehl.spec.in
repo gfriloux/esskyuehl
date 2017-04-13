@@ -44,10 +44,10 @@ EFL asynchronous client-side SQL library development files.
 %prep
 %setup -q -n %{package_name}-%{version}
 
-# Remove esskyuehl and MODULE_ARCH subtree from the library path to comply
+# Remove MODULE_ARCH from all library paths to comply
 # with GNU/Linux distro’s rules
-sed -ri 's|(moddir\s*=\s*\$\(libdir\))(/esskyuehl/\$\(MODULE_ARCH\))|\1|' \
-	Makefile.am
+sed -ri 's|(/\$\(MODULE_ARCH\))||' \
+	Makefile*
 
 %build
 
