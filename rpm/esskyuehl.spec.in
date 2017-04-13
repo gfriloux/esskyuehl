@@ -66,8 +66,9 @@ autoreconf -if
 %{__rm} -rf %{buildroot}
 %make_install
 
-# remove static lib
-%{__rm} -rf %{buildroot}%{_libdir}/*.la
+# remove static libs
+%{__rm} -f %{buildroot}%{_libdir}/*.la
+%{__rm} -f %{buildroot}%{_libdir}/%{package_name}/*.la
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -79,6 +80,8 @@ autoreconf -if
 %license COPYING
 %doc AUTHORS NEWS README THANKS
 %{_libdir}/*.so*
+%dir %{_libdir}/%{package_name}
+%{_libdir}/%{package_name}/*.so*
 
 %files devel
 %defattr(-, root, root,-)
