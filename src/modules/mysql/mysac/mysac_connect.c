@@ -158,21 +158,11 @@ int mysac_connect(MYSAC *mysac) {
 		strcpy(&mysac->buf[36], mysac->login);
 		i = 36 + strlen(mysac->login) + 1;
 
-		/* password CLIENT_SECURE_CONNECTION */
-		if (mysac->options & CLIENT_SECURE_CONNECTION) {
-
-			/* the password hash len */
-			mysac->buf[i] = SCRAMBLE_LENGTH;
-			i++;
-			scramble(&mysac->buf[i], mysac->salt, mysac->password);
-			i += SCRAMBLE_LENGTH;
-		}
-
-		/* password ! CLIENT_SECURE_CONNECTION */
-		else {
-			scramble_323(&mysac->buf[i], mysac->salt, mysac->password);
-			i += SCRAMBLE_LENGTH_323 + 1;
-		}
+      /* the password hash len */
+		mysac->buf[i] = SCRAMBLE_LENGTH;
+		i++;
+		scramble(&mysac->buf[i], mysac->salt, mysac->password);
+		i += SCRAMBLE_LENGTH;
 
 		/* Add database if needed */
 		if ((mysac->options & CLIENT_CONNECT_WITH_DB) &&
@@ -255,13 +245,13 @@ int mysac_connect(MYSAC *mysac) {
 		mysac->buf[3] = mysac->packet_number;
 
 		/* send scrambled password in old format. */
-		scramble_323(&mysac->buf[4], mysac->salt, mysac->password);
-		mysac->buf[4+SCRAMBLE_LENGTH_323] = '\0';
+		scramble(&mysac->buf[4], mysac->salt, mysac->password);
+		mysac->buf[4+SCRAMBLE_LENGTH] = '\0';
 
 		/* len */
-		to_my_3(SCRAMBLE_LENGTH_323+1, &mysac->buf[0]);
+		to_my_3(SCRAMBLE_LENGTH+1, &mysac->buf[0]);
 		mysac->qst = MYSAC_SEND_AUTH_2;
-		mysac->len = SCRAMBLE_LENGTH_323 + 1 + 4;
+		mysac->len = SCRAMBLE_LENGTH + 1 + 4;
 		mysac->send = mysac->buf;
 
 	/* send scrambled password in old format */
